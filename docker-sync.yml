@@ -1,0 +1,28 @@
+# docker-sync configuration
+# docker-sync speeds up local development on a mac using docker.
+# More info here: http://docker-sync.io/
+
+version: "2"
+syncs:
+  akeneo-blackfire-sync:
+    sync_userid: '1000'
+    sync_groupid: '1000'
+    notify_terminal: true
+    src: './'
+    sync_excludes:
+      - '.git'
+      - '.idea'
+      - 'bin/docker'
+      - 'docker/*'
+      - 'node_modules'
+      - 'var/{cache,cache_node,xdebug}'
+      - '.env*'
+      - '.gitignore'
+      - 'CHANGELOG-*.md'
+      - 'docker-compose.*'
+      - 'docker-sync.yml'
+      - 'LICENCE.txt'
+      - 'package.json'
+      - 'README.md'
+      - 'UPGRADE-*.md'
+      - 'yarn*'
