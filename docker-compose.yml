@@ -2,7 +2,13 @@ version: '3'
 
 services:
   fpm:
-    image: 'akeneo/fpm:php-7.2'
+    # image: akeneo/fpm:php-7.2
+    build:
+      context: .
+      dockerfile: docker/fpm/Dockerfile
+    environment:
+      - BLACKFIRE_CLIENT_ID
+      - BLACKFIRE_CLIENT_TOKEN
     user: 'docker'
     volumes:
       - './:/srv/pim'
@@ -27,8 +33,8 @@ services:
       - '${DOCKER_PORT_HTTP}:80'
     volumes:
       - './:/srv/pim:ro'
-      - './docker/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro'
-      - './docker/akeneo.conf:/usr/local/apache2/conf/vhost.conf:ro'
+      - './docker/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro'
+      - './docker/httpd/akeneo.conf:/usr/local/apache2/conf/vhost.conf:ro'
     networks:
       - 'akeneo'
 
@@ -58,6 +64,12 @@ services:
       MINIO_SECRET_KEY: 'AKENEO_OBJECT_STORAGE_SECRET_KEY'
     networks:
       - akeneo
+    
+  blackfire:
+    image: blackfire/blackfire
+    environment: 
+      - BLACKFIRE_SERVER_ID
+      - BLACKFIRE_SERVER_TOKEN
 
 networks:
   akeneo:
